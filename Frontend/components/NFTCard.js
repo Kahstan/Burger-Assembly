@@ -11,39 +11,6 @@ const NFTCard = ({ data }) => {
   // const reactCtx = useContext(ReactContext);
   const navigation = useNavigation();
 
-  // const fetchDisplay = async (url) => {
-  //   const options = {
-  //     method: "GET",
-  //   };
-
-  //   try {
-  //     const res = await fetch(url, options);
-  //     console.log(res);
-  //     console.log(options);
-
-  //     if (res.status !== 200) {
-  //       throw new Error("Something went wrong.");
-  //     }
-
-  //     const data = await res.json();
-  //     // setData(data);
-  //     console.log(data);
-  //     // have to create state for listing
-  //     reactCtx.setListing(data);
-  //     reactCtx.refreshState
-  //       ? reactCtx.setRefreshState(false)
-  //       : reactCtx.setRefreshState(true);
-  //   } catch (err) {
-  //     // setError(err.message);
-  //     console.log(err);
-  //   }
-  // };
-
-  // function submitListingSearch(event) {
-  //   event.preventDefault();
-  //   fetchDisplay("http://localhost:5001/listings/displayAll");
-  // }
-
   return (
     <View>
       <View

@@ -15,6 +15,26 @@ const auth = require("../middleware/auth");
 const selectParams =
   "title image petName species breed sex size age medical isArchive favouritesCount ownerContactName ownerContactEmail ownerContactPhone ownerContactAddress profileContact dateCreated"; // currently set to all params
 
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "../Frontend/src/images");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, uuidv4() + "-" + Date.now() + path.extname(file.originalname));
+//   },
+// });
+
+// const fileFilter = (req, file, cb) => {
+//   const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+//   if (allowedFileTypes.includes(file.mimetype)) {
+//     cb(null, true);
+//   } else {
+//     cb(null, false);
+//   }
+// };
+
+// let upload = multer({ storage, fileFilter });
+
 // CREATE LISTING
 router.put("/create", async (req, res) => {
   try {
@@ -52,7 +72,9 @@ router.get("/displayAll", async (req, res) => {
 // DISPLAY 1 LISTING via ID --> back-end
 router.post("/listing", async (req, res) => {
   try {
-    const searchListing = await Listing.find({ _id: req.body.id });
+    const searchListing = await Listing.find(
+      { _id: req.body.id }.select(selectParams)
+    ); // come back to set up more search params
     res.json(searchListing);
   } catch (error) {
     console.log(`POST /listing ${error}`);
@@ -186,154 +208,14 @@ router.get("/seed", async (req, res) => {
 
   await Listing.create(
     {
-      title: "Pug Pup for adoption",
-      image: "1pug.jpeg",
-      petName: "Bread",
-      species: "dog",
-      breed: "Pug",
-      sex: "Male",
-      size: "Small",
-      age: "2",
-      medical: "Respiratory Distress, Eye Injuries.",
-      ownerContactName: "Lionel Yong",
-      ownerContactEmail: "LiYong@gmail.com",
-      ownerContactPhone: "92705674",
-      ownerContactAddress: "42 everton road",
-      profileContact: {
-        id: "716239123h6712638",
-        name: "Lionel Yong",
-        email: "Liyong@gmail.com",
-      },
-      comments:
-        "I had five procedures to get me healthy: Neuter, skin tuck, soft palate surgery, stenotic nares surgery and a dental cleaning. I have a UTI which is being treated and I will be retested soon to make sure it is all gone. Between the neuter and UTI, I have to wear a belly band at all times. Hopefully, with your love and help, I can learn to potty outside all the time and not wear a belly band. I think it will take me some time to learn outside potty, please be patient with me. I want to please you!",
+      title: "Hamburger",
+      price: 12,
+      ingredient: "Cheese, beef patty",
     },
     {
-      title: "Big Golden Boy (TWINS)",
-      image: "1gr.jpeg",
-      petName: "Furry",
-      species: "dog",
-      breed: "Golden Retriever",
-      sex: "Female",
-      size: "Large",
-      age: "1",
-      medical: "Allergic to sun",
-      ownerContactName: "Nat Yong",
-      ownerContactEmail: "NatYong@gmail.com",
-      ownerContactPhone: "92705624",
-      ownerContactAddress: "18 Marina Boulevard",
-      profileContact: {
-        id: "716239asdad123h6712638",
-        name: "Natalie Yong",
-        email: "Natyong@gmail.com",
-      },
-      comments: "N.A.",
-    },
-    {
-      title: "Big Golden Boy (TWINS)",
-      image: "2gr.jpeg",
-      petName: "Wuzzy",
-      species: "dog",
-      breed: "Golden Retriever",
-      sex: "Male",
-      size: "Large",
-      age: "1",
-      medical: "Allergic to Moon",
-      ownerContactName: "Natalia Yong",
-      ownerContactEmail: "NatYong1@gmail.com",
-      ownerContactPhone: "92705624",
-      ownerContactAddress: "18 Marina Boulevard",
-      profileContact: {
-        id: "716239a213123sdad123h6712638",
-        name: "Natalia Yong",
-        email: "Natyong1@gmail.com",
-      },
-      comments: "N.A.",
-    },
-    {
-      title: "Ginger Mane",
-      image: "1cat.jpeg",
-      petName: "Ging",
-      species: "cat",
-      breed: "Red Ginger Cat",
-      sex: "Male",
-      size: "M",
-      age: "3",
-      medical: "Sleeps too much",
-      ownerContactName: "Benzema Yong",
-      ownerContactEmail: "Ben@gmail.com",
-      ownerContactPhone: "92705224",
-      ownerContactAddress: "12 Marina Boulevard",
-      profileContact: {
-        id: "716239a2213113123sdad123h6712638",
-        name: "Benzema Yong",
-        email: "Ben@gmail.com",
-      },
-      comments:
-        "Healthy, immigrating and have to pass him on to a better owner.",
-    },
-    {
-      title: "Wild Red Ginger Kitty",
-      image: "2cat.jpeg",
-      petName: "Saber",
-      species: "cat",
-      breed: "Red Ginger Cat",
-      sex: "Female",
-      size: "L",
-      age: "6",
-      medical: "Only have back legs",
-      ownerContactName: "Benjamin Yong",
-      ownerContactEmail: "Benja@gmail.com",
-      ownerContactPhone: "92725224",
-      ownerContactAddress: "17 Marina Boulevard",
-      profileContact: {
-        id: "716239a2213113123sdad123h6712638",
-        name: "Benja Yong",
-        email: "Benja@gmail.com",
-      },
-      comments: "Loves to scratch, furniture and humans alike",
-    },
-    {
-      title: "10y.o. Bengal",
-      image: "3cat.jpeg",
-      petName: "Bengaleh",
-      species: "cat",
-      breed: "Bengal",
-      sex: "Female",
-      size: "S",
-      age: "10",
-      medical: "Only have front legs",
-      ownerContactName: "BenjaminButton Yong",
-      ownerContactEmail: "BenjaButton@gmail.com",
-      ownerContactPhone: "92723224",
-      ownerContactAddress: "99 Marina Boulevard",
-      profileContact: {
-        id: "716239a2213113123sdad123h6712638",
-        name: "Benjamin Yong",
-        email: "BenjaButton@gmail.com",
-      },
-      comments:
-        "The perfect escape artist, never fails to escape from the house",
-    },
-    {
-      title: "8y.o. bunny",
-      image: "1bun.jpeg",
-      petName: "Bobo",
-      species: "others",
-      breed: "Netherlands Dwarf/Lion Mane",
-      sex: "Male",
-      size: "S",
-      age: "8",
-      medical: "Too cute",
-      ownerContactName: "Nat",
-      ownerContactEmail: "Nat@gmail.com",
-      ownerContactPhone: "93888077",
-      ownerContactAddress: "910 Marina Boulevard",
-      profileContact: {
-        id: "716239a2213113123adfsdad123h6712638",
-        name: "Nat Tan ",
-        email: "Nat@gmail.com",
-      },
-      comments: "Idle champion, doesn't do shit at home. But cute",
+      title: "Double Hamburger",
+      price: 14,
+      ingredient: "Cheese, beef patty",
     },
 
     (err, data) => {
