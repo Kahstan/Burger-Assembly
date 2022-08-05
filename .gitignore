@@ -119,3 +119,6 @@ yarn-debug.log*
 
 .idea/
 .vscode/
+
+#ignore expo
+.expo
