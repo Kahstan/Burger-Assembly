@@ -166,7 +166,7 @@ router.patch("/edit", auth, async (req, res) => {
 });
 
 // UPDATE LISTING FAVOURITE COUNT
-router.patch("/cart", async (req, res) => {
+router.patch("/favourite", async (req, res) => {
   // both admin and users can update listing favourite count
   const newListingData = await Listing.findOneAndUpdate(
     { _id: req.body.id },

@@ -19,7 +19,6 @@ const ListingSchema = new mongoose.Schema(
     },
     cartCount: {
       type: Number,
-      required: true,
       default: 0,
     },
   },

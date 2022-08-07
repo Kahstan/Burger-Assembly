@@ -5,6 +5,8 @@ import { FocusedStatusBar, HomeHeader } from "../components";
 import React, { useState, useEffect, useContext } from "react";
 import ReactContext from "../context/react-context";
 
+const randomNum = Math.random();
+
 const Home = () => {
   const reactCtx = useContext(ReactContext);
 
@@ -54,6 +56,7 @@ const Home = () => {
       <Text>{title}</Text>
       <Text>{price}</Text>
       <Text>{ingredient}</Text>
+      <Text>{_id}</Text>
     </View>
   );
 
@@ -89,7 +92,7 @@ const Home = () => {
           <FlatList
             data={reactCtx.listing}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<HomeHeader onSearch={handleSearch} />}
           />

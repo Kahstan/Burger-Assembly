@@ -22,17 +22,17 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   const [listing, setListing] = useState("");
   const [refreshState, setRefreshState] = useState(false);
-  const [userCart, setUserCart] = useState("");
+  const [userCart, setUserCart] = useState();
 
   // adds the item to cart and increase the count by 1
   function addToCart(event) {
     event.preventDefault();
-    console.log(event.target.id);
+    console.log(event.target._id);
 
     // go to listing and plus one to favourite count
     updateListingCartCount(
-      "http://localhost:5001/listings/cart",
-      event.target.id
+      "http://localhost:5001/listings/favourite",
+      event.target._id
     );
   }
 
