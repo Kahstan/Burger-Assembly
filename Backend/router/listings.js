@@ -40,9 +40,10 @@ router.put("/create", async (req, res) => {
   try {
     const createdListing = await Listing.create({
       title: req.body.title,
-      image: req.file?.filename,
+      image: req.body.image,
       price: req.body.price,
       ingredient: req.body.ingredient,
+      cartCount: req.body.cartCount,
     });
 
     console.log("created listing:  ", createdListing);
@@ -165,24 +166,14 @@ router.patch("/edit", auth, async (req, res) => {
 });
 
 // UPDATE LISTING FAVOURITE COUNT
-router.patch("/favourite", async (req, res) => {
+router.patch("/cart", async (req, res) => {
   // both admin and users can update listing favourite count
   const newListingData = await Listing.findOneAndUpdate(
     { _id: req.body.id },
-    { $inc: { favouritesCount: +1 } },
+    { $inc: { cartCount: +1 } },
     { new: true }
   );
   res.json(newListingData);
-});
-
-// UPDATE LISTING ARCHIVE STATE
-router.patch("/archive", async (req, res) => {
-  const newListingArchive = await Listing.findOneAndUpdate(
-    { _id: req.body.id },
-    { isArchive: req.body.isArchive },
-    { new: true }
-  );
-  res.json(newListingArchive);
 });
 
 // DELETE LISTING
@@ -199,34 +190,6 @@ router.delete("/delete", auth, async (req, res) => {
       res.json(deleteListing);
     }
   }
-});
-
-// SEED DATA
-router.get("/seed", async (req, res) => {
-  //to make sure that the data you are seeding is the right data, you can remove the rest first
-  await Listing.deleteMany();
-
-  await Listing.create(
-    {
-      title: "Hamburger",
-      price: 12,
-      ingredient: "Cheese, beef patty",
-    },
-    {
-      title: "Double Hamburger",
-      price: 14,
-      ingredient: "Cheese, beef patty",
-    },
-
-    (err, data) => {
-      if (err) {
-        console.log("GET /seed error:" + err.message);
-        res.status(400).json({ status: "error", message: "seeding error" });
-      } else {
-        res.json({ status: "ok", message: "seeding successful" });
-      }
-    }
-  );
 });
 
 module.exports = router;

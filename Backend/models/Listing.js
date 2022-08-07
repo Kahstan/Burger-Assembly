@@ -17,6 +17,11 @@ const ListingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    cartCount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
   },
   { collection: "BurgerAssembly" }
 );
