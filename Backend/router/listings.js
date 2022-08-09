@@ -165,15 +165,26 @@ router.patch("/edit", auth, async (req, res) => {
   }
 });
 
-// UPDATE LISTING FAVOURITE COUNT
-router.patch("/favourite", async (req, res) => {
+// ADD CART COUNT
+router.patch("/addToCart", async (req, res) => {
   // both admin and users can update listing favourite count
   const newListingData = await Listing.findOneAndUpdate(
-    { _id: req.body.id },
-    { $inc: { cartCount: +1 } },
-    { new: true }
+    { title: req.body.title },
+    { $inc: { cartCount: +1 } }
   );
   res.json(newListingData);
+  console.log(newListingData);
+});
+
+// MINUS CART COUNT
+router.patch("/minusToCart", async (req, res) => {
+  // both admin and users can update listing favourite count
+  const newListingData = await Listing.findOneAndUpdate(
+    { title: req.body.title },
+    { $inc: { cartCount: -1 } }
+  );
+  res.json(newListingData);
+  console.log(newListingData);
 });
 
 // DELETE LISTING

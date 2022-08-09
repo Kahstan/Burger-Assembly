@@ -24,44 +24,10 @@ const App = () => {
   const [refreshState, setRefreshState] = useState(false);
   const [userCart, setUserCart] = useState();
 
+  //Search bar
+  const [searchListingInput, setSearchListingInput] = useState("");
+
   // adds the item to cart and increase the count by 1
-  function addToCart(event) {
-    event.preventDefault();
-    console.log(event.target._id);
-
-    // go to listing and plus one to favourite count
-    updateListingCartCount(
-      "http://localhost:5001/listings/favourite",
-      event.target._id
-    );
-  }
-
-  const updateListingCartCount = async (url, listingId) => {
-    const bod = JSON.stringify({ id: listingId });
-
-    const options = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: bod,
-    };
-
-    try {
-      const res = await fetch(url, options);
-      console.log(res);
-      console.log(options);
-
-      if (res.status !== 200) {
-        throw new Error("Something went wrong.");
-      }
-
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <ReactContext.Provider
@@ -70,9 +36,10 @@ const App = () => {
         setListing,
         refreshState,
         setRefreshState,
-        addToCart,
         userCart,
         setUserCart,
+        searchListingInput,
+        setSearchListingInput,
       }}
     >
       <NavigationContainer>

@@ -5,8 +5,6 @@ import { FocusedStatusBar, HomeHeader } from "../components";
 import React, { useState, useEffect, useContext } from "react";
 import ReactContext from "../context/react-context";
 
-const randomNum = Math.random();
-
 const Home = () => {
   const reactCtx = useContext(ReactContext);
 
@@ -50,13 +48,59 @@ const Home = () => {
     }
   };
 
-  const Item = ({ title, price, ingredient, image, _id }) => (
+  function addToCart(event) {
+    updateListingCartCount(
+      "http://localhost:5001/listings/addToCart",
+      event.target.title
+    );
+    event.preventDefault();
+    console.log(event.target.title);
+  }
+
+  function minusToCart(event) {
+    event.preventDefault();
+    console.log(event.target.title);
+    updateListingCartCount(
+      "http://localhost:5001/listings/minusToCart",
+      event.target.title
+    );
+  }
+
+  const updateListingCartCount = async (url, listingId) => {
+    const bod = JSON.stringify({ title: listingId });
+
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: bod,
+    };
+
+    try {
+      const res = await fetch(url, options);
+      console.log(res);
+      console.log(options);
+
+      if (res.status !== 200) {
+        throw new Error("Something went wrong.");
+      }
+
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const Item = ({ title, price, ingredient, image, _id, cartCount }) => (
     <View>
       <Image>{image}</Image>
       <Text>{title}</Text>
       <Text>{price}</Text>
       <Text>{ingredient}</Text>
       <Text>{_id}</Text>
+      <Text>{cartCount}</Text>
     </View>
   );
 
@@ -75,11 +119,13 @@ const Home = () => {
         <Item title={item.title} />
         <Item title={item.price} />
         <Item title={item.ingredient} />
-        <Button
-          id={item._id}
-          title="Add to cart"
-          onPress={reactCtx.addToCart}
-        />
+        <item title={item.cartCount} />
+        <button title={item.title} onClick={addToCart}>
+          Add to cart
+        </button>
+        <button title={item.title} onClick={minusToCart}>
+          Remove from cart
+        </button>
       </View>
     </View>
   );

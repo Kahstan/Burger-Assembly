@@ -14,7 +14,7 @@ const Cart = () => {
 
   return (
     <SafeAreaView style={{ flexDirection: "row" }}>
-      <Text>Cart tab</Text>
+      <Text></Text>
       <Text>Cart tab</Text>
     </SafeAreaView>
   );
