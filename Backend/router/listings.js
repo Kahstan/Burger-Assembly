@@ -118,8 +118,8 @@ router.post("/create-checkout-session", async (req, res) => {
           quantity: item.quantity,
         };
       }),
-      success_url: `https://google.com`,
-      cancel_url: `https://facebook.com`,
+      success_url: "https://giphy.com/embed/G96zgIcQn1L2xpmdxi/video",
+      cancel_url: "https://giphy.com/embed/y7YHCpOwuYcLio0BP1/video",
     });
     res.json({ url: session.url });
   } catch (e) {

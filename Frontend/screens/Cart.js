@@ -19,7 +19,13 @@ export function Cart({ navigation }) {
     return (
       <View style={styles.cartLineTotal}>
         <Text style={[styles.lineLeft, styles.lineTotal]}>Total</Text>
-        <Text style={styles.mainTotal}>$ {total}</Text>
+        <Text style={styles.mainTotal}>$ {total} </Text>
+        {/* stripe checkout button */}
+        <View style={styles.container}>
+          <Text style={styles.text} onPress={checkOut}>
+            Checkout
+          </Text>
+        </View>
       </View>
     );
   }
@@ -64,15 +70,11 @@ export function Cart({ navigation }) {
             {item.product.name} x {item.qty}{" "}
             <Text style={styles.productTotal}>${item.totalPrice}</Text>
           </Text>
-          <Button style={styles.container} onPress={onAddToCart} title="+" />
-        </View>
-        {/* stripe checkout button */}
-        <View>
-          <Button
-            style={styles.container}
-            onPress={checkOut}
-            title="Checkout"
-          />
+          <View style={styles.container}>
+            <Text style={styles.text} onPress={onAddToCart}>
+              +
+            </Text>
+          </View>
         </View>
       </>
     );

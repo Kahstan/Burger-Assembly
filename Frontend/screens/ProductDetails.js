@@ -30,7 +30,11 @@ export function ProductDetails({ route }) {
           <Text style={styles.name}>{product.name}</Text>
           <Text style={styles.price}>$ {product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>
-          <Button onPress={onAddToCart} title="Add To Cart" />
+          <View style={styles.container}>
+            <Text style={styles.text} onPress={onAddToCart}>
+              Add to Cart
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -64,5 +68,19 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#787878",
     marginBottom: 16,
+  },
+  container: {
+    marginHorizontal: 8,
+    backgroundColor: "orange",
+    height: 39,
+    padding: 12,
+    borderRadius: 32,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 13,
   },
 });
