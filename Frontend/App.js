@@ -7,6 +7,8 @@ import { ProductDetails } from "./screens/ProductDetails.js";
 import { Cart } from "./screens/Cart.js";
 import { CartProvider } from "./CartContext.js";
 import { CartIcon } from "./components/CartIcon.js";
+//stripe
+// import { Success } from "./screens/Success.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +42,15 @@ function App() {
               headerRight: () => <CartIcon navigation={navigation} />,
             })}
           />
+          {/* stripe screen */}
+          {/* <Stack.Screen
+            name="Success"
+            component={Success}
+            options={({ navigation }) => ({
+              title: "Success",
+              headerRight: () => <CartIcon navigation={navigation} />,
+            })}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>

@@ -11,19 +11,14 @@ import {
 import { CartContext } from "../CartContext";
 
 export function ProductDetails({ route }) {
-  const { getProduct, addItemToCart } = useContext(CartContext);
+  const { getProduct, product, setProduct, onAddToCart } =
+    useContext(CartContext);
 
   const { productId } = route.params;
-  const [product, setProduct] = useState({});
 
   useEffect(() => {
     setProduct(getProduct(productId));
   });
-
-  function onAddToCart() {
-    addItemToCart(product.id);
-    alert("Item added");
-  }
 
   return (
     <SafeAreaView>

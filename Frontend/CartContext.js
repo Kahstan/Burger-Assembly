@@ -1,11 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getProduct } from "./services/ProductsService.js";
-
 export const CartContext = createContext();
 
 export function CartProvider(props) {
   const [items, setItems] = useState([]);
   const [listings, setListings] = useState([]);
+  const [product, setProduct] = useState({});
 
   const fetchListings = async (url) => {
     const options = {
@@ -39,9 +38,15 @@ export function CartProvider(props) {
     return listings.find((product) => product.id == id);
   }
 
+  function onAddToCart() {
+    addItemToCart(product.id);
+    console.log(product.price);
+  }
+
   function addItemToCart(id) {
     //takes the listings state, find the id of the product
     const product = getProduct(id);
+    console.log(product);
     setItems((prevItems) => {
       const item = prevItems.find((item) => item.id == id);
       if (!item) {
@@ -66,28 +71,32 @@ export function CartProvider(props) {
     });
   }
 
-  function removeItemFromCart(id) {
-    //takes the listings state, find the id of the product
-    const product = getProduct(id);
-    setItems((prevItems) => {
-      const item = prevItems.find((item) => item.id == id);
-      if (!item) {
-        return [
-          ...prevItems,
-          {
-            id,
-            qty: 1,
-            product,
-            totalPrice: product.price,
-          },
-        ];
-      } else {
-        return prevItems.map((item) => {
-          if (item.id == id) return item;
-        });
-      }
-    });
-  }
+  // function removeItemFromCart(id) {
+  //   //takes the listings state, find the id of the product
+  //   const product = getProduct(id);
+  //   setItems((prevItems) => {
+  //     const item = prevItems.find((item) => item.id == id);
+  //     if (!item) {
+  //       return [
+  //         ...prevItems,
+  //         {
+  //           id,
+  //           qty: 1,
+  //           product,
+  //           totalPrice: product.price,
+  //         },
+  //       ];
+  //     } else {
+  //       return prevItems.map((item) => {
+  //         if (item.id == id) {
+  //           item.qty == 0;
+  //           item.totalPrice += product.price;
+  //         }
+  //         return item;
+  //       });
+  //     }
+  //   });
+  // }
 
   function getItemsCount() {
     return items.reduce((sum, item) => sum + item.qty, 0);
@@ -108,7 +117,10 @@ export function CartProvider(props) {
         getProducts,
         listings,
         setListings,
-        removeItemFromCart,
+        // removeItemFromCart,
+        product,
+        setProduct,
+        onAddToCart,
       }}
     >
       {props.children}

@@ -12,6 +12,9 @@ const path = require("path");
 const Listing = require("../models/Listing");
 const auth = require("../middleware/auth");
 
+//stripe
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+
 // CREATE LISTING
 router.put("/create", async (req, res) => {
   try {
@@ -71,7 +74,7 @@ router.patch("/edit", async (req, res) => {
 router.patch("/addToCart", async (req, res) => {
   // both admin and users can update listing favourite count
   const newListingData = await Listing.findOneAndUpdate(
-    { title: req.body.title },
+    { name: req.body.name },
     { $inc: { cartCount: +1 } }
   );
   res.json(newListingData);
@@ -82,7 +85,7 @@ router.patch("/addToCart", async (req, res) => {
 router.patch("/minusToCart", async (req, res) => {
   // both admin and users can update listing favourite count
   const newListingData = await Listing.findOneAndUpdate(
-    { title: req.body.title },
+    { name: req.body.name },
     { $inc: { cartCount: -1 } }
   );
   res.json(newListingData);
@@ -95,4 +98,32 @@ router.delete("/delete", async (req, res) => {
   res.json(deleteListing);
 });
 
+//stripe payment
+//test data
+
+router.post("/create-checkout-session", async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: req.body.items.map((item) => {
+        return {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: item.name,
+            },
+            unit_amount: item.priceInCents * 100,
+          },
+          quantity: item.quantity,
+        };
+      }),
+      success_url: `https://google.com`,
+      cancel_url: `https://facebook.com`,
+    });
+    res.json({ url: session.url });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 module.exports = router;

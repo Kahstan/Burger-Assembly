@@ -3,16 +3,15 @@ import { View, Image, Text, Button, FlatList, StyleSheet } from "react-native";
 import { CartContext } from "../CartContext";
 
 export function Cart({ navigation }) {
-  const { items, getTotalPrice, removeItemFromCart } = useContext(CartContext);
+  const { items, getTotalPrice, removeItemFromCart, product, onAddToCart } =
+    useContext(CartContext);
+  const [total, setTotal] = useState(0);
 
-  function onDeleteFromCart({ item }) {
-    removeItemFromCart(item.id);
-    alert("item removed");
+  function onDeleteFromCart() {
+    removeItemFromCart(product.id);
   }
 
   function Totals() {
-    let [total, setTotal] = useState(0);
-
     useEffect(() => {
       setTotal(getTotalPrice());
     });
@@ -24,7 +23,38 @@ export function Cart({ navigation }) {
       </View>
     );
   }
+  //stripe fetch
+  const checkOut = () => {
+    fetch("http://localhost:5001/listings/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        items: [
+          {
+            // figure out how to pass in the arguments so stripe can read
+            priceInCents: total,
+            name: "Total",
+            quantity: 1,
+          },
+        ],
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then(({ url }) => {
+        window.location = url;
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+  };
 
+  // I can use update to add the numbers and delete the numbers when press "minus"
+  // use fetch to render out the item
   function renderItem({ item }) {
     return (
       <>
@@ -33,13 +63,16 @@ export function Cart({ navigation }) {
           <Text style={styles.lineLeft}>
             {item.product.name} x {item.qty}{" "}
             <Text style={styles.productTotal}>${item.totalPrice}</Text>
-            {/* doesnt work yet */}
-            <Button
-              style={styles.container}
-              onPress={onDeleteFromCart}
-              title="Remove from cart"
-            />
           </Text>
+          <Button style={styles.container} onPress={onAddToCart} title="+" />
+        </View>
+        {/* stripe checkout button */}
+        <View>
+          <Button
+            style={styles.container}
+            onPress={checkOut}
+            title="Checkout"
+          />
         </View>
       </>
     );
