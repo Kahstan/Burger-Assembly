@@ -6,7 +6,6 @@ const express = require("express");
 const cors = require("cors");
 
 const connectDB = require("./db/db");
-const users = require("./router/users");
 const listings = require("./router/listings");
 
 // const upload = multer();
@@ -26,7 +25,6 @@ connectDB(process.env.MONGODB_URI);
 // app.use(upload.array());
 // app.use(express.static("public"));
 
-app.use("/users", users); // {{server}}/users/
 app.use("/listings", listings); // {{server}}/listings/
 
 const PORT = process.env.PORT || 5001;

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ListingSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -13,13 +13,13 @@ const ListingSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    ingredient: {
+    description: {
       type: String,
       required: true,
     },
-    cartCount: {
+    id: {
       type: Number,
-      default: 0,
+      required: true,
     },
   },
   { collection: "BurgerAssembly" }
