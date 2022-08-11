@@ -2,9 +2,7 @@
 
 [<img src="./Frontend/assets/Screenshot%202022-08-11%20at%203.37.29%20PM.png" width="250"/>](./Frontend/assets/Screenshot%202022-08-11%20at%203.37.29%20PM.png)
 [<img src="./Frontend/assets/Screenshot%202022-08-11%20at%203.37.45%20PM.png" width="250"/>](./Frontend/assets/Screenshot%202022-08-11%20at%203.37.45%20PM.png)
-
 [<img src="./Frontend/assets/Screenshot%202022-08-11%20at%203.37.16%20PM.png" width="250"/>](./Frontend/assets/Screenshot%202022-08-11%20at%203.37.16%20PM.png)
-
 [<img src="./Frontend/assets/Screenshot%202022-08-11%20at%203.36.59%20PM.png" width="250"/>](./Frontend/assets/Screenshot%202022-08-11%20at%203.36.59%20PM.png)
 
 ## **How To Use**
