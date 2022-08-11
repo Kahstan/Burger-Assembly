@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ProductsList } from "./screens/ProductsList.js";
@@ -36,7 +36,7 @@ function App() {
             name="Cart"
             component={Cart}
             options={({ navigation }) => ({
-              title: "Products",
+              title: "Cart",
               headerRight: () => <CartIcon navigation={navigation} />,
             })}
           />
@@ -49,6 +49,7 @@ function App() {
 //styles that are used in the page
 const styles = StyleSheet.create({
   Container: {
+    fontFamily: "Menlo",
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",

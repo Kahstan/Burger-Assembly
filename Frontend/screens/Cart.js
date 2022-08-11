@@ -2,15 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { View, Image, Text, FlatList, StyleSheet } from "react-native";
 import { CartContext } from "../CartContext";
 
-export function Cart({ navigation }) {
-  const {
-    items,
-    getTotalPrice,
-    removeItemFromCart,
-    product,
-    onAddToCart,
-    onDeleteFromCart,
-  } = useContext(CartContext);
+export function Cart() {
+  const { items, getTotalPrice, onAddToCart, onDeleteFromCart } =
+    useContext(CartContext);
   const [total, setTotal] = useState(0);
 
   function Totals() {
@@ -22,8 +16,8 @@ export function Cart({ navigation }) {
       <View style={styles.cartLineTotal}>
         <Text style={[styles.lineLeft, styles.lineTotal]}>Total</Text>
         <Text style={styles.mainTotal}>$ {total} </Text>
-        {/* stripe checkout button */}
         <View style={styles.container}>
+          {/* stripe checkout button */}
           <Text style={styles.text} onPress={checkOut}>
             Checkout
           </Text>
@@ -68,7 +62,7 @@ export function Cart({ navigation }) {
     return (
       <>
         <View style={styles.cartLine}>
-          <Image style={styles.image} source={item.product.image} />
+          <Image style={styles.image} source={{ uri: item.product.image }} />
           <Text style={styles.lineLeft}>
             {item.product.name} x {item.qty}{" "}
             <Text style={styles.productTotal}>${item.totalPrice}</Text>
@@ -103,7 +97,7 @@ export function Cart({ navigation }) {
 const styles = StyleSheet.create({
   cartLine: {
     flexDirection: "row",
-    width: "80%",
+    width: "100%",
     paddingVertical: 10,
   },
   image: {
@@ -118,6 +112,7 @@ const styles = StyleSheet.create({
   },
   productTotal: {
     fontWeight: "bold",
+    flexDirection: "column",
   },
   lineTotal: {
     fontWeight: "bold",

@@ -1,16 +1,8 @@
 require("dotenv").config();
 
 const express = require("express");
-const multer = require("multer");
-const { body, validationResult } = require("express-validator");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
-const path = require("path");
-
 const Listing = require("../models/Listing");
-const auth = require("../middleware/auth");
 
 //stripe
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
@@ -24,6 +16,7 @@ router.put("/create", async (req, res) => {
       image: req.body.image,
       price: req.body.price,
       description: req.body.description,
+      totalPrice: req.body.totalPrice,
     });
 
     console.log("created listing:  ", createdListing);
@@ -52,15 +45,18 @@ router.get("/displayAll", async (req, res) => {
 
 // UPDATE LISTING
 router.patch("/edit", async (req, res) => {
+  const listingData = await Listing.findOne({ name: req.body.name });
   const newListingData = await Listing.findOneAndUpdate(
-    { id: req.body.id },
+    { name: req.body.name },
     {
       $set: {
-        id: req.body.id,
-        name: req.body.name,
-        image: req.body.image,
-        price: req.body.price,
-        description: req.body.description,
+        id: req.body.id || listingData.id,
+        name: req.body.name || listingData.name,
+        image: req.body.image || listingData.image,
+        price: req.body.price || listingData.price,
+        description: req.body.description || listingData.description,
+        totalPrice: req.body.totalPrice || listingData.totalPrice,
+        cartCount: req.body.cartCount || listingData.cartCount,
       },
     },
     { new: true }
@@ -71,7 +67,7 @@ router.patch("/edit", async (req, res) => {
 // ADD CART COUNT
 router.patch("/addToCart", async (req, res) => {
   const newListingData = await Listing.findOneAndUpdate(
-    { id: req.body.id },
+    { name: req.body.name },
     { $inc: { cartCount: +1 } }
   );
   res.json(newListingData);
@@ -81,17 +77,21 @@ router.patch("/addToCart", async (req, res) => {
 // MINUS CART COUNT
 router.patch("/minusToCart", async (req, res) => {
   const newListingData = await Listing.findOneAndUpdate(
-    { id: req.body.id },
+    { name: req.body.name },
     { $inc: { cartCount: -1 } }
   );
   res.json(newListingData);
   console.log(newListingData);
 });
 
-// DELETE LISTING
+// DELETE LISTING //couldn't think of a way to use this
 router.delete("/delete", async (req, res) => {
-  const deleteListing = await Listing.deleteOne({ id: req.body.id });
-  res.json(deleteListing);
+  const newListingData = await Listing.findOneAndUpdate(
+    { name: req.body.name },
+    { $set: { cartCount: 0 } }
+  );
+  res.json(newListingData);
+  console.log(newListingData);
 });
 
 //stripe payment
