@@ -22,21 +22,22 @@
 
 ## **Libraries**
 
-"@react-navigation/native": "^6.0.8",
-"@react-navigation/native-stack": "^6.5.0",
-"expo": "~44.0.0",
-"expo-cli": "^6.0.1",
-"expo-status-bar": "~1.2.0",
-"react": "17.0.1",
-"react-dom": "17.0.1",
-"react-native": "0.64.3",
-"react-native-safe-area-context": "3.3.2",
-"react-native-screens": "~3.10.1",
-"react-native-web": "0.17.1"
+- "@react-navigation/native": "^6.0.8",
+- "@react-navigation/native-stack": "^6.5.0",
+- "expo": "~44.0.0",
+- "expo-cli": "^6.0.1",
+- "expo-status-bar": "~1.2.0",
+- "react": "17.0.1",
+- "react-dom": "17.0.1",
+- "react-native": "0.64.3",
+- "react-native-safe-area-context": "3.3.2",
+- "react-native-screens": "~3.10.1",
+- "react-native-web": "0.17.1"
 
 ## **APIs used**
 
 The [Stripe](https://stripe.com/docs/development) API
+
 The Payment Methods _API_ allows you to accept a variety of payment methods through a single _API_.
 
 ## **Challenges**
