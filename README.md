@@ -1,6 +1,9 @@
 # Burger Assembly: A mobile ordering app.
 
-![ThumbnailScreenshot]()
+![ThumbnailScreenshot](./Frontend/assets/Screenshot%202022-08-11%20at%203.36.59%20PM.png)
+![ThumbnailScreenshot](./Frontend/assets/Screenshot%202022-08-11%20at%203.36.59%20PM.png)
+![ThumbnailScreenshot](./Frontend/assets/Screenshot%202022-08-11%20at%203.36.59%20PM.png)
+![ThumbnailScreenshot](./Frontend/assets/Screenshot%202022-08-11%20at%203.36.59%20PM.png)
 
 ## **How To Use**
 
