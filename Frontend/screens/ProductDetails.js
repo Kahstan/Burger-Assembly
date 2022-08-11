@@ -6,7 +6,6 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
-  Button,
 } from "react-native";
 import { CartContext } from "../CartContext";
 

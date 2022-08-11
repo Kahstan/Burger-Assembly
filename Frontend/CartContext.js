@@ -40,13 +40,12 @@ export function CartProvider(props) {
 
   function onAddToCart() {
     addItemToCart(product.id);
-    console.log(product.price);
+    console.log("add", product.id);
   }
 
   function addItemToCart(id) {
     //takes the listings state, find the id of the product
     const product = getProduct(id);
-    console.log(product);
     setItems((prevItems) => {
       const item = prevItems.find((item) => item.id == id);
       if (!item) {
@@ -62,6 +61,7 @@ export function CartProvider(props) {
       } else {
         return prevItems.map((item) => {
           if (item.id == id) {
+            [...prevItems];
             item.qty++;
             item.totalPrice += product.price;
           }
@@ -71,32 +71,42 @@ export function CartProvider(props) {
     });
   }
 
-  // function removeItemFromCart(id) {
-  //   //takes the listings state, find the id of the product
-  //   const product = getProduct(id);
-  //   setItems((prevItems) => {
-  //     const item = prevItems.find((item) => item.id == id);
-  //     if (!item) {
-  //       return [
-  //         ...prevItems,
-  //         {
-  //           id,
-  //           qty: 1,
-  //           product,
-  //           totalPrice: product.price,
-  //         },
-  //       ];
-  //     } else {
-  //       return prevItems.map((item) => {
-  //         if (item.id == id) {
-  //           item.qty == 0;
-  //           item.totalPrice += product.price;
-  //         }
-  //         return item;
-  //       });
-  //     }
-  //   });
-  // }
+  function onDeleteFromCart() {
+    removeItemFromCart(product.id);
+    console.log("delete", product.id);
+  }
+
+  function removeItemFromCart(id) {
+    //takes the listings state, find the id of the product
+    const product = getProduct(id);
+    setItems((prevItems) => {
+      const item = prevItems.find((item) => item.id == id);
+      if (!item) {
+        return [
+          ...prevItems,
+          {
+            id,
+            qty: 1,
+            product,
+            totalPrice: product.price,
+          },
+        ];
+      } else {
+        return prevItems.map((item) => {
+          if (item.id == id) {
+            if (item.qty > 1) {
+              item.qty--;
+              item.totalPrice -= product.price;
+              console.log(items);
+            } else {
+              setItems([]);
+            }
+          }
+          return item;
+        });
+      }
+    });
+  }
 
   function getItemsCount() {
     return items.reduce((sum, item) => sum + item.qty, 0);
@@ -121,6 +131,7 @@ export function CartProvider(props) {
         product,
         setProduct,
         onAddToCart,
+        onDeleteFromCart,
       }}
     >
       {props.children}

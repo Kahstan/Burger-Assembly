@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
-// import { getProducts } from "../services/ProductsService";
+import { FlatList, StyleSheet } from "react-native";
 import { Product } from "../components/Product";
 import { CartContext } from "../CartContext";
 

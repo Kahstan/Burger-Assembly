@@ -40,7 +40,7 @@ router.put("/create", async (req, res) => {
 // DISPLAY ALL LISTINGS
 router.get("/displayAll", async (req, res) => {
   try {
-    const allListings = await Listing.find(); // this filters what information we want to send to the front-end (sensitive) **
+    const allListings = await Listing.find();
     res.json(allListings);
   } catch (error) {
     console.log(`GET /displayAll ${error}`);
@@ -52,10 +52,8 @@ router.get("/displayAll", async (req, res) => {
 
 // UPDATE LISTING
 router.patch("/edit", async (req, res) => {
-  // update ANY listing as admin
-
   const newListingData = await Listing.findOneAndUpdate(
-    { name: req.body.name },
+    { id: req.body.id },
     {
       $set: {
         id: req.body.id,
@@ -72,9 +70,8 @@ router.patch("/edit", async (req, res) => {
 
 // ADD CART COUNT
 router.patch("/addToCart", async (req, res) => {
-  // both admin and users can update listing favourite count
   const newListingData = await Listing.findOneAndUpdate(
-    { name: req.body.name },
+    { id: req.body.id },
     { $inc: { cartCount: +1 } }
   );
   res.json(newListingData);
@@ -83,9 +80,8 @@ router.patch("/addToCart", async (req, res) => {
 
 // MINUS CART COUNT
 router.patch("/minusToCart", async (req, res) => {
-  // both admin and users can update listing favourite count
   const newListingData = await Listing.findOneAndUpdate(
-    { name: req.body.name },
+    { id: req.body.id },
     { $inc: { cartCount: -1 } }
   );
   res.json(newListingData);
@@ -94,13 +90,11 @@ router.patch("/minusToCart", async (req, res) => {
 
 // DELETE LISTING
 router.delete("/delete", async (req, res) => {
-  const deleteListing = await Listing.deleteOne({ name: req.body.name });
+  const deleteListing = await Listing.deleteOne({ id: req.body.id });
   res.json(deleteListing);
 });
 
 //stripe payment
-//test data
-
 router.post("/create-checkout-session", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({

@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Image, Text, Button, FlatList, StyleSheet } from "react-native";
+import { View, Image, Text, FlatList, StyleSheet } from "react-native";
 import { CartContext } from "../CartContext";
 
 export function Cart({ navigation }) {
-  const { items, getTotalPrice, removeItemFromCart, product, onAddToCart } =
-    useContext(CartContext);
+  const {
+    items,
+    getTotalPrice,
+    removeItemFromCart,
+    product,
+    onAddToCart,
+    onDeleteFromCart,
+  } = useContext(CartContext);
   const [total, setTotal] = useState(0);
-
-  function onDeleteFromCart() {
-    removeItemFromCart(product.id);
-  }
 
   function Totals() {
     useEffect(() => {
@@ -29,6 +31,7 @@ export function Cart({ navigation }) {
       </View>
     );
   }
+
   //stripe fetch
   const checkOut = () => {
     fetch("http://localhost:5001/listings/create-checkout-session", {
@@ -73,6 +76,11 @@ export function Cart({ navigation }) {
           <View style={styles.container}>
             <Text style={styles.text} onPress={onAddToCart}>
               +
+            </Text>
+          </View>
+          <View style={styles.container}>
+            <Text style={styles.text} onPress={onDeleteFromCart}>
+              -
             </Text>
           </View>
         </View>
